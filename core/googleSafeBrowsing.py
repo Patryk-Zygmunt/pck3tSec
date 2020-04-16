@@ -19,7 +19,7 @@ class GoogleSafeBrowsing:
     def _prepare_threat_entries(self, urls: list):
         return [{'url': x} for x in urls]
 
-    def api_call(self, urls: list) -> Tuple[bool,Dict]:
+    def api_call(self, urls: list) -> Tuple[bool, Dict]:
         self.request_template['threatInfo']['threatEntries'] = self._prepare_threat_entries(urls)
         response = requests.post(self.url, json=self.request_template, headers=self.headers)
         if response.status_code != 200:

@@ -1,5 +1,5 @@
-from packetReader import PacketReader
-from analyzerBase import AnalyzerBase
+from core.packetReader import PacketReader
+from core.analyzerBase import AnalyzerBase
 
 class AnalyzeDispatcher:
 
