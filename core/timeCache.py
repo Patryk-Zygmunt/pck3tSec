@@ -9,7 +9,7 @@ class TimeCache:
         TODO  separately update each filed - delete when to old
         Underling structure is mapping of hasable object to time it got added in ms
         For now just clear cache after oldest timestampt is bigger than durancy
-        :param cacheing_durancy: store time in minutes
+        :param keep_time: store time
         :param max_size: maximum numer of cached objects
         """
 

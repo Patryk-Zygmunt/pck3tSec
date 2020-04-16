@@ -1,7 +1,9 @@
-import time
-
+import logging
 from scapy.all import IPSession, AsyncSniffer, TCPSession, load_layer
-import scapy.layers.http as http
+from scapy.layers import http
+
+logger = logging.getLogger()
+
 
 class PacketReader:
     """ 
@@ -20,6 +22,7 @@ class PacketReader:
         """
         start async sniffer
         """
+        logger.info("starting to sniff packets")
          # TODO filter all outcoming packets
         self.sniffer = AsyncSniffer(session=TCPSession, prn=self._store, iface=self.interface, count=count, store=False)
         self.sniffer.start()
@@ -28,12 +31,16 @@ class PacketReader:
         """
         get new packets since last call of this function
         """
+        logger.debug("getting new packets with index at {}".format(self.last_index))
         index = self.last_index
         self.last_index = len(self.store)
+        logger.debug("new index is at {}".format(self.last_index))
         return self.store[index:]
 
     def end(self):
+        logger.info("stopping reader")
         if not self.sniffer or not self.sniffer.running:
+            logger.error("sniffer not started")
             raise Exception("first call sniff")
         return self.sniffer.stop()
 
@@ -42,6 +49,7 @@ class PacketReader:
         remove all already read packets by `get_packets`
         !! Warning - you will loose the references to those packets !!
         """
+        logger.debug("removing old packets with index at {}".format(self.last_index))
         del self.store[:self.last_index]
 
     def started(self) -> bool:
@@ -53,22 +61,3 @@ class PacketReader:
         """
         return len(self.store) - self.last_index
 
-
-if __name__ == '__main__':
-    #try:
-
-        p = PacketReader('en0')
-        p.sniff()
-        import requests
-        r = requests.get('http://wikipedia.org/wiki/Duck')
-        print(r.status_code)
-    #except KeyboardInterrupt:
-   #     time.sleep(2)
-        x = p.get_packets()
-        for pc in x:
-            #print(pc.show())
-            if pc.haslayer(http.HTTPRequest):
-                #print(pc.show())
-                print(pc.getlayer(http.HTTPRequest).Path)
-           # print(pc.haslayer(http.HTTPRequest))
-        print(p.end())

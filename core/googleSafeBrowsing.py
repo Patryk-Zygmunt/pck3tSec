@@ -2,7 +2,9 @@ from typing import Tuple, Dict
 import requests
 import json
 import logging
+
 logger = logging.getLogger()
+
 
 class GoogleSafeBrowsing:
 
@@ -20,6 +22,7 @@ class GoogleSafeBrowsing:
         return [{'url': x} for x in urls]
 
     def api_call(self, urls: list) -> Tuple[bool, Dict]:
+        logger.info("api call to google for host {}".format(urls))
         self.request_template['threatInfo']['threatEntries'] = self._prepare_threat_entries(urls)
         response = requests.post(self.url, json=self.request_template, headers=self.headers)
         if response.status_code != 200:

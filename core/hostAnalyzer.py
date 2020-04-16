@@ -1,13 +1,12 @@
 from core.googleSafeBrowsing import GoogleSafeBrowsing
 from core.timeCache import TimeCache
 from scapy.layers import http, inet
-from core.analyzerBase import AnalyzerBase
+from core.abstracts import AnalyzerBase
 from scapy.all import conf
 from typing import Optional, Tuple, Dict
 from datetime import timedelta
 import socket
 import logging
-
 
 logger = logging.getLogger()
 
@@ -70,8 +69,10 @@ class HostAnalyzer(AnalyzerBase):
         host = None
         try:
             if packet.haslayer(http.HTTPRequest):
+                logger.debug(f"packet {packet.summary()} has http layer")
                 host = self._handle_http_layer(packet)
             elif packet.haslayer(inet.IP):
+                logger.debug(f"packet {packet.summary()} has ip layer")
                 host = self._handle_ip_layer(packet)
             if host:
                 return self.is_host_safe(host)
