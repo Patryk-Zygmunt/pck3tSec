@@ -1,11 +1,22 @@
-from core.analyzeDispatcher import AnalyzeDispatcher
-from core.googleSafeBrowsing import GoogleSafeBrowsing
-from core.hostAnalyzer import HostAnalyzer
-from core.packetReader import PacketReader
-from api.django_external_setup import django_external_setup
+import sys, os
 
-if __name__ == '__main__':
-    print("Warinig! this script needs root privilages")
+cwd = os.getcwd()
+api_path = os.path.join(cwd, 'api')
+core_path = os.path.join(cwd, 'core')
+sys.path.append(core_path)
+sys.path.append(api_path)
+
+
+from django_external_setup import django_external_setup
+from analyzeDispatcher import AnalyzeDispatcher
+from googleSafeBrowsing import GoogleSafeBrowsing
+from hostAnalyzer import HostAnalyzer
+from packetReader import PacketReader
+
+
+if  __name__ == '__main__':
+
+    print("Warinig! this script needs root privileges")
     django_external_setup()
     google_safe = GoogleSafeBrowsing("AIzaSyDyYREKVRoPgXSFvcRZuqFGZHlSFymDa80")
     analyzer1 = HostAnalyzer(google_safe)
