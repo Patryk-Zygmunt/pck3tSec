@@ -1,5 +1,5 @@
-from core.packetReader import PacketReader
-from core.abstracts import AnalyzerBase
+from packetReader import PacketReader
+from abstracts import IAnalyzer
 import logging
 
 logger = logging.getLogger()
@@ -12,15 +12,16 @@ class AnalyzeDispatcher:
         self.reader = reader
         self.analyzers = []
 
-        self.active = True
+        self.active = False
 
-    def register_analyzer(self, analyzer: AnalyzerBase):
+    def register_analyzer(self, analyzer: IAnalyzer):
         logger.info(f"registering analyzer {analyzer.__class__.__name__}")
         self.analyzers.append(analyzer)
 
     def run(self):
         # blocking
         logger.info("starting dispatcher")
+        self.active = True
         if not self.reader.started():
             self.reader.sniff()
         while self.active:

@@ -1,24 +1,25 @@
 from abc import ABC, abstractmethod
 
 
-class Observer(ABC):
+class IObserver(ABC):
 
     @abstractmethod
-    def update(self, content):
+    def update(self, *args, **kwargs):
         pass
 
 
 class IObservable(ABC):
 
     @abstractmethod
-    def register_observer(self, observer: Observer):
+    def register_observer(self, observer: IObserver):
         pass
 
-    def remove_observer(self, observer: Observer):
+    @abstractmethod
+    def notify(self, *args, **kwargs):
         pass
 
 
-class AnalyzerBase(ABC):
+class IAnalyzer(ABC):
 
     @abstractmethod
     def analyze(self, packet):
