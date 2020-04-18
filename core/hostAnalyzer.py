@@ -26,7 +26,7 @@ class HostAnalyzer(IAnalyzer, IObservable):
 
     def register_observer(self, observer: IObserver):
         logger.info("registering observer {}".format(observer.__class__.__name__))
-        self.observers.append(observer) 
+        self.observers.append(observer)
 
     def notify(self, *args, **kwargs):
         for observer in self.observers:
@@ -71,7 +71,7 @@ class HostAnalyzer(IAnalyzer, IObservable):
         if host not in self.safe_cache:
             logger.info(f"api call  for host {host}")
             ret_value = self.safe_browsing.api_call([host])
-            if ret_value[0]: # is safe
+            if ret_value[0]:  # is safe
                 logger.debug("host {} is safe".format(host))
                 self.safe_cache.add(host)
             else:
@@ -81,6 +81,7 @@ class HostAnalyzer(IAnalyzer, IObservable):
 
     def analyze(self, packet):
         # TODO make it not return and comm with database
+        print(packet.summary())
         host = None
         try:
             if packet.haslayer(http.HTTPRequest):

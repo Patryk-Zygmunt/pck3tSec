@@ -61,3 +61,12 @@ class PacketReader:
         """
         return len(self.store) - self.last_index
 
+
+
+if __name__ == '__main__':
+    reader = PacketReader('en0')
+    reader.sniff()
+    import time
+    time.sleep(3)
+    p = reader.get_packets()
+    print(p[1].show())
