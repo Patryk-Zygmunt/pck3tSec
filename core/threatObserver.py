@@ -1,19 +1,40 @@
+import logging
+from django.utils import timezone
 from abstracts import IObserver
-#from api.rest.models import Host
-import datetime
+from django_external_setup import django_external_setup
+from rest.enum_classes import ThreatType
+from typing import Dict
+
+django_external_setup()
+from rest.models import Host, Threat
+
+logger = logging.getLogger()
 
 
 class ThreatObserver(IObserver):
 
-    def update(self, *args, **kwargs):
-        threat_data = kwargs['data']
+    def _save_if_not_doubled(self, threat: Threat, source_host_id: int):
+        query = Threat.objects.filter(threat_type=ThreatType.HOST, host_source=source_host_id)
+        if query.exists():
+            logger.info("Such threat entry already exists")
+        else:
+            logger.info("Threat saved in database")
+            threat.save()
+
+    def update(self, host: str, threat_details: Dict):
+        http_path = host if '/' in host else ""
+        host_db, created = Host.objects.get_or_create(fqd_name=host)
+
+        db_threat = Threat(
+            threat_type=ThreatType.HOST,
+            threat_details=threat_details or "no details",
+            http_path=http_path,
+            discovered=timezone.now(),
+            host_source=host_db
+        )
+        self._save_if_not_doubled(db_threat, host_db.id)
 
 
 if __name__ == '__main__':
-    import django_external_setup
-    django_external_setup.django_external_setup()
-    from rest.models import Host
-    data = {'id': 1, 'is_threat': True, 'fqd_name': "kaczki.com", "last_accessed": datetime.datetime.now()}
-    db_host = Host(**data)
-    db_host.save()
-    print(Host.objects.all())
+    to = ThreatObserver()
+    to.update("ziomo", {})

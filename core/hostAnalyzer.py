@@ -8,7 +8,7 @@ from datetime import timedelta
 import socket
 import logging
 
-logger = logging.getLogger()
+logger = logging.getLogger(__name__)
 
 
 class HostAnalyzer(IAnalyzer, IObservable):
@@ -48,7 +48,7 @@ class HostAnalyzer(IAnalyzer, IObservable):
         try:
             return socket.gethostbyaddr(ips)[0]
         except socket.herror:
-            logger.warning(f"host counld not be resolved for {ips}")
+            logger.warning(f"host could not be resolved for {ips}")
 
     def _get_ip_of_foreign_host(self, ip: inet.IP) -> Optional[str]:
         if ip.dst not in self.own_interfaces:
@@ -71,12 +71,12 @@ class HostAnalyzer(IAnalyzer, IObservable):
         if host not in self.safe_cache:
             logger.info(f"api call  for host {host}")
             ret_value = self.safe_browsing.api_call([host])
-            if ret_value[0]: # is safe
+            if ret_value[0]:  # is safe
                 logger.debug("host {} is safe".format(host))
                 self.safe_cache.add(host)
             else:
                 logger.info("host {} is threat, details: {}".format(host, ret_value[1]))
-                self.notify(data=ret_value)
+                self.notify(host, ret_value[1])
         return ret_value
 
     def analyze(self, packet):
