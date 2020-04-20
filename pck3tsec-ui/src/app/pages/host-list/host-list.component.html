@@ -1,0 +1,15 @@
+
+<nb-card-front>
+  <nb-card size="small">
+    <nb-card-header>
+      <span>Traffic</span>
+    </nb-card-header>
+    <nb-list>
+      <nb-list-item class="item" *ngFor="let item of items;">
+
+        <span>{{ item.date }}</span>
+        <span>{{ item.value }}</span>
+
+      </nb-list-item>
+    </nb-list>  </nb-card>
+</nb-card-front>
