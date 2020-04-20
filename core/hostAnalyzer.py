@@ -31,7 +31,7 @@ class HostAnalyzer(IAnalyzer, IObservable):
 
     def notify(self, *args, **kwargs):
         for observer in self.observers:
-            logger.info("notyfing observer {}".format(observer.__class__.__name__))
+            logger.info("notifying observer {}".format(observer.__class__.__name__))
             observer.update(*args, **kwargs)
 
     def _get_own_interfaces(self) -> list:

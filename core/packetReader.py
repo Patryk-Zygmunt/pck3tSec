@@ -42,8 +42,8 @@ class PacketReader:
         logger.info("stopping reader")
         if not self.sniffer or not self.sniffer.running:
             logger.error("sniffer not started")
-            raise Exception("first call sniff")
-        return self.sniffer.stop()
+            return
+        self.sniffer.stop()
 
     def remove_old_packets(self):
         """
