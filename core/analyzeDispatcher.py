@@ -1,5 +1,5 @@
-from packetReader import PacketReader
-from abstracts import IAnalyzer
+from core.packetReader import PacketReader
+from core.abstracts import IAnalyzer
 import logging
 
 logger = logging.getLogger()
@@ -21,9 +21,9 @@ class AnalyzeDispatcher:
     def run(self):
         # blocking
         logger.info("starting dispatcher")
-        self.active = True
         if not self.reader.started():
             self.reader.sniff()
+        self.active = True
         while self.active:
             packets = self.reader.get_packets()
             for packet in packets:

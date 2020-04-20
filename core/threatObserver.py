@@ -1,7 +1,7 @@
 import logging
 from django.utils import timezone
-from abstracts import IObserver
-from django_external_setup import django_external_setup
+from core.abstracts import IObserver
+from core.django_external_setup import django_external_setup
 from rest.enum_classes import ThreatType
 from typing import Dict
 
@@ -23,7 +23,7 @@ class ThreatObserver(IObserver):
 
     def update(self, host: str, threat_details: Dict):
         http_path = host if '/' in host else ""
-        host_db, created = Host.objects.get_or_create(fqd_name=host)
+        host_db, created = Host.objects.get_or_create(fqd_name=host, is_threat=True)
 
         db_threat = Threat(
             threat_type=ThreatType.HOST,

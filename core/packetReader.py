@@ -16,6 +16,7 @@ class PacketReader:
         self.last_index = 0
 
     def _store(self, packet):
+        logger.debug('read packet {}'.format(packet.summary()))
         self.store.append(packet)
 
     def sniff(self, count=0):
@@ -61,3 +62,13 @@ class PacketReader:
         """
         return len(self.store) - self.last_index
 
+
+if __name__ == '__main__':
+    load_layer('http')
+    p = PacketReader('en0')
+    p.sniff()
+    while True:
+        pck = p.get_packets()
+        for pac in pck:
+            if pac.haslayer(http.HTTP):
+                print(pac.show())

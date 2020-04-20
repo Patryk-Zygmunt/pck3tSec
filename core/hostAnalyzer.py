@@ -1,12 +1,13 @@
-from googleSafeBrowsing import GoogleSafeBrowsing
-from timeCache import TimeCache
+from core.googleSafeBrowsing import GoogleSafeBrowsing
+from core.timeCache import TimeCache
 from scapy.layers import http, inet
-from abstracts import IAnalyzer, IObservable, IObserver
+from core.abstracts import IAnalyzer, IObservable, IObserver
 from scapy.all import conf
 from typing import Optional, Tuple, Dict
 from datetime import timedelta
 import socket
 import logging
+
 
 logger = logging.getLogger(__name__)
 
@@ -63,7 +64,10 @@ class HostAnalyzer(IAnalyzer, IObservable):
 
     def _handle_http_layer(self, packet) -> Optional[str]:
         http_packet = packet.getlayer(http.HTTPRequest)
-        host_path = f"{http_packet.Host}{http_packet.Path}"
+        #logger.info(f"HTTP packet  type {type(http_packet.HOST)}, {type(http_packet.Path)}")
+        host = http_packet.Host.decode('utf-8')
+        path = http_packet.Path.decode('utf-8')
+        host_path = f"{host}{path}"
         return host_path
 
     def is_host_safe(self, host: str) -> Tuple[bool, Dict]:
@@ -81,6 +85,7 @@ class HostAnalyzer(IAnalyzer, IObservable):
 
     def analyze(self, packet):
         # TODO make it not return and comm with database
+        logger.debug("host analyzer packet {}".format(packet.show))
         host = None
         try:
             if packet.haslayer(http.HTTPRequest):
