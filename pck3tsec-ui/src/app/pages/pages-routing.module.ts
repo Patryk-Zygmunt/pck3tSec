@@ -2,39 +2,80 @@ import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 
 import { PagesComponent } from './pages.component';
-
-import {HostListComponent} from "./pcktsec/host-list/host-list.component";
-import {BlacklistComponent} from "./pcktsec/blacklist/blacklist.component";
-import {WhitelistComponent} from "./pcktsec/whitelist/whitelist.component";
-import {ThreatsComponent} from "./pcktsec/threats/threats.component";
-import {HomeComponent} from "./pcktsec/home/home.component";
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { ECommerceComponent } from './e-commerce/e-commerce.component';
+import { NotFoundComponent } from './miscellaneous/not-found/not-found.component';
 
 const routes: Routes = [{
   path: '',
   component: PagesComponent,
   children: [
-
     {
-      path: 'traffic',
-      component: HostListComponent,
-    },
-
-    {
-      path: 'blacklist',
-      component: BlacklistComponent,
-    },
-
-    {
-      path: 'whitelist',
-      component: WhitelistComponent,
+      path: 'dashboard',
+      component: ECommerceComponent,
     },
     {
-      path: 'threats',
-      component: ThreatsComponent,
+      path: 'iot-dashboard',
+      component: DashboardComponent,
+    },
+    {
+      path: 'layout',
+      loadChildren: () => import('./layout/layout.module')
+        .then(m => m.LayoutModule),
+    },
+    {
+      path: 'forms',
+      loadChildren: () => import('./forms/forms.module')
+        .then(m => m.FormsModule),
+    },
+    {
+      path: 'ui-features',
+      loadChildren: () => import('./ui-features/ui-features.module')
+        .then(m => m.UiFeaturesModule),
+    },
+    {
+      path: 'modal-overlays',
+      loadChildren: () => import('./modal-overlays/modal-overlays.module')
+        .then(m => m.ModalOverlaysModule),
+    },
+    {
+      path: 'extra-components',
+      loadChildren: () => import('./extra-components/extra-components.module')
+        .then(m => m.ExtraComponentsModule),
+    },
+    {
+      path: 'maps',
+      loadChildren: () => import('./maps/maps.module')
+        .then(m => m.MapsModule),
+    },
+    {
+      path: 'charts',
+      loadChildren: () => import('./charts/charts.module')
+        .then(m => m.ChartsModule),
+    },
+    {
+      path: 'editors',
+      loadChildren: () => import('./editors/editors.module')
+        .then(m => m.EditorsModule),
+    },
+    {
+      path: 'tables',
+      loadChildren: () => import('./tables/tables.module')
+        .then(m => m.TablesModule),
+    },
+    {
+      path: 'miscellaneous',
+      loadChildren: () => import('./miscellaneous/miscellaneous.module')
+        .then(m => m.MiscellaneousModule),
     },
     {
       path: '',
-      component: HomeComponent,
+      redirectTo: 'dashboard',
+      pathMatch: 'full',
+    },
+    {
+      path: '**',
+      component: NotFoundComponent,
     },
   ],
 }];
