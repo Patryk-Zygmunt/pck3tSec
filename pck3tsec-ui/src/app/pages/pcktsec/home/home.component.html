@@ -1,0 +1,53 @@
+<div class="row">
+  <div class="col-md-6">
+    <ngx-list-card
+      [on]="true" [title]="recordTraffic.title" [type]="recordTraffic.type" [icon]="recordTraffic.icon">
+    </ngx-list-card>
+  </div>
+  <div class="col-md-6">
+    <ngx-list-card
+      [on]="true" [title]="detectThreats.title" [type]="detectThreats.type" [icon]="detectThreats.icon">
+    </ngx-list-card>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xxl-5">
+
+    <nb-card>
+      <nb-card-header>Statistics</nb-card-header>
+      <nb-card-body>
+        <ngx-pie-chart></ngx-pie-chart>
+
+      </nb-card-body>
+    </nb-card>
+
+    <ngx-list-card
+      [on]="true" [title]="checkNotification.title" [type]="checkNotification.type" [icon]="checkNotification.icon">
+    </ngx-list-card>
+      <ngx-list-card [routerLink]="'/blacklist'"
+         [title]="checkBlacklist.title" [type]="checkBlacklist.type" [icon]="checkBlacklist.icon" [onOff]="false" >
+      </ngx-list-card>
+    <ngx-list-card [routerLink]="'/whitelist'"
+      [title]="checkWhitelist.title" [type]="checkWhitelist.type" [icon]="checkWhitelist.icon" [onOff]="false" >
+    </ngx-list-card>
+
+
+  </div>
+  <div class="col-xxl-7">
+
+    <ngx-threats [smallSize]="'small'"></ngx-threats>
+    <nb-card>
+      <nb-card-header>Statistics</nb-card-header>
+      <nb-card-body>
+        <ngx-threats-chart></ngx-threats-chart>
+      </nb-card-body>
+    </nb-card>
+    </div>
+
+
+</div>
+
+
+
+

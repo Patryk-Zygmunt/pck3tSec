@@ -1,0 +1,55 @@
+
+<nb-card-front>
+  <nb-card size="{{smallSize}}">
+    <nb-card-header>
+      <span>Detected threats</span>
+
+    </nb-card-header>
+    <nb-list>
+      <nb-list-item class="item">
+        <b><span>Id</span></b>
+        <b><span>Host</span></b>
+        <b>  <span>Details</span></b>
+        <b> <span>Type</span></b>
+        <b> <span>Detected</span></b>
+        <b> <span>Block</span></b>
+      </nb-list-item>
+
+
+      <nb-list-item class="item" *ngFor="let item of threats;">
+
+        <span>{{ item.id }} </span>
+        <span>{{ item.host }}</span>
+        <span>{{ item.details }}</span>
+        <span>
+           <button nbButton [status]="'warning'" ghost>
+            {{ item.type }}
+          </button>
+        </span>
+
+        <span>
+          <button nbButton [status]="'success'" ghost>
+            {{ item.detected | date: 'dd/MM/yy' }}
+          </button>
+        </span>
+
+
+        <span *ngIf="item.blocked">
+           <button nbButton [status]="'danger'" ghost>
+            BLOCKED
+          </button>
+        </span>
+        <span *ngIf="!item.blocked">
+           <button (click)="addToList(item)"   nbButton outline>
+            Add to list
+          </button>
+
+        </span>
+
+
+
+      </nb-list-item>
+    </nb-list>  </nb-card>
+</nb-card-front>
+
+

@@ -1,0 +1,34 @@
+
+<nb-card-front>
+  <nb-card size="small">
+    <nb-card-header>
+      <span>Blacklist</span>
+
+    </nb-card-header>
+    <nb-list>
+      <nb-list-item class="item">
+        <b><span>Id</span></b>
+        <b><span>Host</span></b>
+        <b> <span>Reason</span></b>
+        <b> <span>Time</span></b>
+        <b> <span>Remove from list</span></b>
+      </nb-list-item>
+
+
+      <nb-list-item class="item" *ngFor="let item of hosts;">
+
+        <span>{{ item.id }}</span>
+        <span>{{ item.host }}</span>
+        <span>{{ item.reason }}</span>
+        <span>{{ item.time | date: 'dd/MM/yy' }}</span>
+        <span>
+           <button (click)="remove(item)" [status]="'danger'"  nbButton outline>
+            Remove
+          </button>
+        </span>
+
+      </nb-list-item>
+    </nb-list>  </nb-card>
+</nb-card-front>
+
+

@@ -1,0 +1,11 @@
+<nb-card>
+  <nb-card-header>Add host to list</nb-card-header>
+  <nb-card-body>
+    <input  fullWidth nbInput placeholder="Reason" [(ngModel)]="reason" name="reason">
+  </nb-card-body>
+  <nb-card-footer>
+
+    <button nbButton status="danger" (click)="addToBlackList()">Blacklist</button>
+    <button nbButton status="success" (click)="addToWhiteList()">Whitelist</button>
+  </nb-card-footer>
+</nb-card>
