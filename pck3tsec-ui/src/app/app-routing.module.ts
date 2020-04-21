@@ -10,8 +10,9 @@ import {
 } from '@nebular/auth';
 
 export const routes: Routes = [
+
   {
-    path: 'pages',
+      path: '',
     loadChildren: () => import('./pages/pages.module')
       .then(m => m.PagesModule),
   },
@@ -45,8 +46,6 @@ export const routes: Routes = [
       },
     ],
   },
-  { path: '', redirectTo: 'pages', pathMatch: 'full' },
-  { path: '**', redirectTo: 'pages' },
 ];
 
 const config: ExtraOptions = {
