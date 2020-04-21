@@ -5,5 +5,4 @@
  */
 export const environment = {
   production: true,
-  url:'http://' + window.location.host  + '/api',
 };

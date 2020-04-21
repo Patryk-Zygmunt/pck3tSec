@@ -14,10 +14,8 @@ h1= {id: 1, host: "www.string.pl", blocked: true,
 h2= {id: 2, host: "www.string.pl", blocked: false,
   ip: "123.123.123", threat: true}
 
-hb= {id: 3, host: "www.string.pl", ip: "123.123.123", time:Date(),reason:"look unsafe"}
-hw= {id: 4, host: "www.string.pl", ip: "123.123.123", time:Date(),reason:"is safe"}
-hb2= {id: 6, host: "www.host.pl", ip: "123.123.123", time:Date(),reason:"look unsafe"}
-hw2= {id: 7, host: "www.host.pl", ip: "123.123.123", time:Date(),reason:"is safe"}
+hb= {id: 1, host: "www.string.pl", ip: "123.123.123", time:Date()}
+hb2= {id: 2, host: "www.host.pl", ip: "123.123.123", time:Date()}
 
 
 t1= {id: 1, host: "www.string.pl", type: "host",details:"unsafe host", threat: true, detected:Date()}
@@ -26,7 +24,7 @@ t2= {id: 2, host: "www.int.pl", type: "host",details:"unsafe host", threat: true
 hosts = [h1,h2]
 ths = [t1,t2]
 blacklist = [hb,hb2]
-wl = [hw,hw2]
+wl = [hb,hb2]
 
 
 
@@ -41,14 +39,14 @@ app.get('/threats',async (req, res)=> {
 
 
 app.post('/blacklist', (req, res)=> {
-  req.body.time_added = Date()
+  req.body.time = Date()
   blacklist.push(req.body)
   res.send()
 
 })
 
 app.post('/whitelist', (req, res)=> {
-  req.body.time_added = Date()
+  req.body.time = Date()
   wl.push(req.body)
   res.send()
 
@@ -64,12 +62,12 @@ app.get('/whitelist',async (req, res)=> {
 
 
 app.delete('/blacklist/:id',async (req, res)=> {
-  blacklist = blacklist.splice(blacklist.findIndex(v=>v.id=req.params.id),1);
+  blacklist.splice(blacklist.findIndex(v=>v.id=req.params.id));
   res.send(blacklist)
 })
 
 app.delete('/whitelist/:id',async (req, res)=> {
- wl= wl.splice(wl.findIndex(v=>v.id=req.params.id),1);
+  wl.splice(wl.findIndex(v=>v.id=req.params.id));
   res.send(wl)
 })
 

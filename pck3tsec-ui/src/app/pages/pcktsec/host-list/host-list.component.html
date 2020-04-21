@@ -10,7 +10,6 @@
         <b><span>Id</span></b>
         <b><span>Host</span></b>
         <b>  <span>IP</span></b>
-        <b>  <span>Date</span></b>
         <b> <span>Threat</span></b>
         <b> <span>Blocked</span></b>
       </nb-list-item>
@@ -19,9 +18,8 @@
       <nb-list-item class="item" *ngFor="let item of hosts;">
 
         <span>{{ item.id }}</span>
-        <span style="overflow-wrap: anywhere">{{ item.fqd_name }}</span>
-        <span>{{ item.original_ip }}</span>
-        <span>{{ item.created_at }}</span>
+        <span>{{ item.host }}</span>
+        <span>{{ item.ip }}</span>
         <span *ngIf="item.threat">
            <button nbButton [status]="'danger'" ghost>
             Danger
