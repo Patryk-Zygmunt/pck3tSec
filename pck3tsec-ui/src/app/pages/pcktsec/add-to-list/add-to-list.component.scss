@@ -1,0 +1,7 @@
+@import '../../../../../node_modules/bootstrap/scss/mixins/breakpoints';
+@import '../../../../../node_modules/@nebular/theme/styles/global/breakpoints';
+@import '../../../@theme/styles/themes';
+
+button[nbButton] {
+  margin: 0.5rem;
+}
