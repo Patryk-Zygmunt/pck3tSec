@@ -23,7 +23,8 @@ class ThreatObserver(IObserver):
 
     def update(self, host: str, threat_details: Dict):
         http_path = host if '/' in host else ""
-        host_db, created = Host.objects.get_or_create(fqd_name=host, is_threat=True)
+        host_name = host.split("/")[0]
+        host_db, created = Host.objects.get_or_create(fqd_name=host_name, is_threat=True)
 
         db_threat = Threat(
             threat_type=ThreatType.HOST,
