@@ -9,7 +9,7 @@
       <nb-list-item class="item">
         <b><span>Id</span></b>
         <b><span>Host</span></b>
-        <b  *ngIf="smallSize!='small'">  <span>Details</span></b>
+        <b>  <span>Details</span></b>
         <b> <span>Type</span></b>
         <b> <span>Detected</span></b>
         <b> <span>Block</span></b>
@@ -19,17 +19,17 @@
       <nb-list-item class="item" *ngFor="let item of threats;">
 
         <span>{{ item.id }} </span>
-        <span>{{ item.host_source.fqd_name }}</span>
-        <span *ngIf="smallSize!='small'"  style="overflow-wrap: anywhere">{{ item.threat_details }}</span>
+        <span>{{ item.host }}</span>
+        <span>{{ item.details }}</span>
         <span>
            <button nbButton [status]="'warning'" ghost>
-            {{ item.threat_type }}
+            {{ item.type }}
           </button>
         </span>
 
         <span>
           <button nbButton [status]="'success'" ghost>
-            {{ item.discovered | date: 'dd/MM/yy' }}
+            {{ item.detected | date: 'dd/MM/yy' }}
           </button>
         </span>
 

@@ -21,10 +21,6 @@ export class ThreatsComponent extends PcktsecListComponent implements OnInit {
 
   ngOnInit(): void {
     this.hostService.getThreats()
-      .subscribe(res =>{
-        //res.forEach(r=>r.threat_details = JSON.parse(r.threat_details) )
-        this.threats = res
-
-      })
+      .subscribe(res => this.threats = res)
   }
 }

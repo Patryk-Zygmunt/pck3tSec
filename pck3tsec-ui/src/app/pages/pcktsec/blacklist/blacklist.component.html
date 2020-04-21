@@ -20,7 +20,7 @@
         <span>{{ item.id }}</span>
         <span>{{ item.host }}</span>
         <span>{{ item.reason }}</span>
-        <span>{{ item.time_added | date: 'dd/MM/yy' }}</span>
+        <span>{{ item.time | date: 'dd/MM/yy' }}</span>
         <span>
            <button (click)="remove(item)" [status]="'danger'"  nbButton outline>
             Remove
