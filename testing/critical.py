@@ -46,7 +46,6 @@ class CriticalTest(ABC, TestCase):
     def test(self):
         pass
 
-
     def perform_test(self):
         try:
             dutils.setup_test_environment()
@@ -73,9 +72,9 @@ class HostThreatTest(CriticalTest):
         res = requests.get(self.test_url)
         assert res.status_code == 200, "request fail"
         # wait to process request by app
-        time.sleep(2)
+        time.sleep(4)
         query = Threat.objects.filter(http_path=self.test_url[7:])
-        print(query)
+        logger.info("threat object is {}".format(query.get().__dict__))
         self.assertTrue(query.exists())
         logger.info("Threat test passed")
 

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from api.rest import models
+from rest import models
 
 
 class HostSerializer(serializers.ModelSerializer):
@@ -13,3 +13,5 @@ class ThreatSerializer(serializers.ModelSerializer):
         model = models.Threat
         fields = serializers.ALL_FIELDS
         depth = 1
+
+
