@@ -1,8 +1,10 @@
-import sys, os, logging, pathlib
+import sys
+import os
+import logging
 
 def config_paths():
-    cwd = pathlib.Path(__file__).parent.absolute()
-    api_path = os.path.join(str(cwd), 'api')
+    cwd = os.path.dirname(os.path.abspath(__file__))
+    api_path = os.path.join(cwd, 'api')
     sys.path.append(api_path)
 
 
