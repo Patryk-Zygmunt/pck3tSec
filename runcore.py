@@ -5,7 +5,8 @@ import logging
 def config_paths():
     cwd = os.path.dirname(os.path.abspath(__file__))
     api_path = os.path.join(cwd, 'api')
-    sys.path.append(api_path)
+    if api_path not in sys.path:
+        sys.path.append(api_path)
     print(sys.path)
 
 
