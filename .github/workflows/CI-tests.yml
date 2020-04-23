@@ -27,6 +27,5 @@ jobs:
       run: python -m unittest discover -s ./core/tests -p "*Tests.py"
     - name: Run critical tests
       run: |
-        ifconfig
         export PT=$(which python)
         sudo $PT runtests_critical.py

@@ -1,6 +1,8 @@
 from scapy.all import IP, ICMP, sr1, conf
 from typing import List, Tuple
+import logging
 
+logger = logging.getLogger()
 
 def get_machine_live_ifaces() -> List[Tuple[str, str]]:
     """
@@ -9,6 +11,7 @@ def get_machine_live_ifaces() -> List[Tuple[str, str]]:
     """
     IFACE_INDEX, IP_INDEX = 3, 4
     ifaces = conf.route.routes
+    print(ifaces)
     own_ifaces = [(x[IFACE_INDEX], x[IP_INDEX]) for x in ifaces if x[2] != '0.0.0.0']
     live = []
     for face in own_ifaces:
