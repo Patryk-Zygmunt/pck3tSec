@@ -29,6 +29,6 @@ jobs:
       run: |
         echo $PWD
         ls
-        python -c "import core"
+        python -c "from core import abstracts"
         PYTHONPATH="$PWD"
         sudo python runtests_critical.py
