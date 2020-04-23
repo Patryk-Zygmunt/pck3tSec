@@ -31,4 +31,6 @@ jobs:
         ls
         python -c "import pathlib; pathlib.Path()"
         PYTHONPATH="$PWD"
+        python -V
+        sudo python -V
         sudo python runtests_critical.py
