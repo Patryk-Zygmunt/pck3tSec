@@ -7,12 +7,10 @@ def config_paths():
     api_path = os.path.join(cwd, 'api')
     if api_path not in sys.path:
         sys.path.append(api_path)
-    print(sys.path)
 
 
 config_paths()
 
-print(sys.path)
 
 from core.django_external_setup import django_external_setup
 from core.analyzeDispatcher import AnalyzeDispatcher

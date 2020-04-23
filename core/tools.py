@@ -16,7 +16,7 @@ def get_machine_live_ifaces() -> List[Tuple[str, str]]:
         # IP defines the protocol for IP addresses
         # dst is the destination IP address
         # TCP defines the protocol for the ports
-        resp = sr1(icmp, timeout=3)
+        resp = sr1(icmp, timeout=5)
         if resp:
             live.append(face)
     return live

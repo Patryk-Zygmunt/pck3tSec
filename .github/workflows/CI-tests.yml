@@ -27,11 +27,6 @@ jobs:
       run: python -m unittest discover -s ./core/tests -p "*Tests.py"
     - name: Run critical tests
       run: |
-        echo $PWD
-        ls
-        python -c "import pathlib; pathlib.Path()"
-        PYTHONPATH="$PWD"
-        python -V
-        sudo python -V
+        ifconfig
         export PT=$(which python)
         sudo $PT runtests_critical.py

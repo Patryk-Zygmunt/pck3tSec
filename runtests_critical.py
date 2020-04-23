@@ -4,8 +4,7 @@ from core import abstracts
 
 config_paths()
 
-print("here")
-print(sys.path)
+
 from core.django_external_setup import django_external_setup
 from testing import critical
 
