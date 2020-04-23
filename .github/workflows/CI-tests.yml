@@ -34,5 +34,4 @@ jobs:
         python -V
         sudo python -V
         sudo which python
-        alias python="python3.8"
-        sudo python runtests_critical.py
+        sudo python3.8 runtests_critical.py
