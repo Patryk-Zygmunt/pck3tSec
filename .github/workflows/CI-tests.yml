@@ -30,4 +30,5 @@ jobs:
         echo $PWD
         ls
         python -c "import core"
+        PYTHONPATH="$PWD"
         sudo python runtests_critical.py
