@@ -11,7 +11,8 @@ def config_paths():
 
 config_paths()
 
-
+print("here run")
+print(sys.path)
 
 from core.django_external_setup import django_external_setup
 from core.analyzeDispatcher import AnalyzeDispatcher
