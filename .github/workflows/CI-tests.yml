@@ -33,4 +33,5 @@ jobs:
         PYTHONPATH="$PWD"
         python -V
         sudo python -V
+        sudo which python
         sudo python runtests_critical.py
