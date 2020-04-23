@@ -84,7 +84,6 @@ class HostAnalyzer(IAnalyzer, IObservable):
         return ret_value
 
     def analyze(self, packet):
-        # TODO make it not return and comm with database
         logger.debug("host analyzer packet {}".format(packet.show))
         host = None
         try:
