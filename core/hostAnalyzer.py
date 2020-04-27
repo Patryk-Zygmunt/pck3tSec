@@ -95,5 +95,6 @@ class HostAnalyzer(IAnalyzer, IObservable):
                 host = self._handle_ip_layer(packet)
             if host:
                 self.is_host_safe(host)
-        except Exception:
+        except Exception as e:
             logger.exception(f"failed to check host for packet {packet.show}")
+            raise e

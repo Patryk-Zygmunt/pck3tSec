@@ -27,7 +27,5 @@ jobs:
       run: python -m unittest discover -s ./core/tests -p "*Tests.py"
     - name: Run critical tests
       run: |
-        ping -c 3 1.1.1.1
-        traceroute google.com
         export PT=$(which python)
-        sudo $PT runtests_critical.py
+        sudo $PT runtests_critical.py --ci

@@ -23,6 +23,9 @@ class GoogleSafeBrowsing:
         return [{'url': x} for x in urls]
 
     def api_call(self, urls: List[str]) -> Tuple[bool, Dict]:
+        """
+        returns: (is_safe, threat_details or empty)
+        """
         logger.info("api call to google for host {}".format(urls))
         self.request_template['threatInfo']['threatEntries'] = self._prepare_threat_entries(urls)
         response = requests.post(self.url, json=self.request_template, headers=self.headers)
