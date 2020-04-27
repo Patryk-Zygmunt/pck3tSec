@@ -46,7 +46,7 @@ class CriticalTest(ABC, TestCase):
             super().__init__()
             google_safe_api = GoogleSafeBrowsing("AIzaSyDyYREKVRoPgXSFvcRZuqFGZHlSFymDa80")
             if is_ci:
-                self.interface = 'lo0'
+                self.interface = 'lo'
                 google_safe_api.url = "http://localhost:8123/googleapi/"
             else:
                 self.interface = get_machine_live_ifaces()[0][0]
