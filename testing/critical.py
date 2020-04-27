@@ -1,3 +1,4 @@
+import sys
 import time
 import requests
 import logging
@@ -119,7 +120,7 @@ class HostThreatTest(CriticalTest):
         location = testing.mock_google_api.__file__
         path = pathlib.Path(location).absolute()
         print(f"path is {path}")
-        server = subprocess.Popen(['python', path],)
+        server = subprocess.Popen([sys.executable, path],)
         return server
 
     def test(self):
