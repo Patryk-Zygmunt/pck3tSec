@@ -10,7 +10,7 @@ class Host(models.Model):
 
 
 class Threat(models.Model):
-    threat_type = models.CharField(choices=[(th, th.value) for th in ThreatType], unique=True, max_length=20)
+    threat_type = models.CharField(choices=[(th.value, th.value.lower()) for th in ThreatType],  max_length=20)
     threat_details = models.TextField()
     http_path = models.CharField(max_length=2048, default="")
     discovered = models.DateTimeField()

@@ -1,0 +1,50 @@
+
+<nb-card-front>
+  <nb-card size="large">
+    <nb-card-header>
+      <span>Recorded network traffic</span>
+
+    </nb-card-header>
+    <nb-list>
+      <nb-list-item class="item">
+        <b><span>Id</span></b>
+        <b><span>Host</span></b>
+        <b>  <span>IP</span></b>
+        <b> <span>Threat</span></b>
+        <b> <span>Blocked</span></b>
+      </nb-list-item>
+
+
+      <nb-list-item class="item" *ngFor="let item of hosts;">
+
+        <span>{{ item.id }}</span>
+        <span>{{ item.host }}</span>
+        <span>{{ item.ip }}</span>
+        <span *ngIf="item.threat">
+           <button nbButton [status]="'danger'" ghost>
+            Danger
+          </button>
+        </span>
+        <span *ngIf="!item.threat">
+          <button nbButton [status]="'success'" ghost>
+            OK
+          </button>
+
+        </span>
+        <span *ngIf="item.blocked">
+           <button nbButton [status]="'danger'" ghost>
+            BLOCKED
+          </button>
+        </span>
+        <span *ngIf="!item.blocked">
+           <button (click)="addToList(item)"   nbButton outline>
+            Add to list
+          </button>
+
+        </span>
+
+      </nb-list-item>
+    </nb-list>  </nb-card>
+</nb-card-front>
+
+

@@ -14,7 +14,7 @@ logger = logging.getLogger()
 class ThreatObserver(IObserver):
 
     def _save_if_not_doubled(self, threat: Threat, source_host_id: int):
-        query = Threat.objects.filter(threat_type=ThreatType.HOST, host_source=source_host_id)
+        query = Threat.objects.filter(threat_type=ThreatType.HOST.value, host_source=source_host_id)
         if query.exists():
             logger.info("Such threat entry already exists")
         else:
@@ -23,11 +23,11 @@ class ThreatObserver(IObserver):
 
     def update(self, host: str, threat_details: Dict):
         http_path = host if '/' in host else ""
-        host_name = host.split("/")[0]
+        host_name = host.split('/')[0]
         host_db, created = Host.objects.get_or_create(fqd_name=host_name, is_threat=True)
 
         db_threat = Threat(
-            threat_type=ThreatType.HOST,
+            threat_type=ThreatType.HOST.value,
             threat_details=threat_details or "no details",
             http_path=http_path,
             discovered=timezone.now(),

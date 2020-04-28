@@ -1,10 +1,10 @@
-import sys, os, logging
+import sys
+import os
+import logging
 
 def config_paths():
-    cwd = os.getcwd()
+    cwd = os.path.dirname(os.path.abspath(__file__))
     api_path = os.path.join(cwd, 'api')
-    core_path = os.path.join(cwd, 'core')
-    #sys.path.append(core_path)
     sys.path.append(api_path)
 
 
