@@ -1,5 +1,5 @@
 from core.packet_reader import PacketReader
-from core.abstracts import IAnalyzer
+from core.abstracts import Analyzer
 import logging
 
 logger = logging.getLogger()
@@ -14,7 +14,7 @@ class AnalyzeDispatcher:
 
         self.active = False
 
-    def register_analyzer(self, analyzer: IAnalyzer):
+    def register_analyzer(self, analyzer: Analyzer):
         logger.info(f"registering analyzer {analyzer.__class__.__name__}")
         self.analyzers.append(analyzer)
 

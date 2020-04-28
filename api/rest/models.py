@@ -7,6 +7,7 @@ class Host(models.Model):
     blocked = models.BooleanField(default=False)
     original_ip = models.CharField(max_length=15, blank=True)
     is_threat = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
 
 
 class Threat(models.Model):
@@ -18,7 +19,7 @@ class Threat(models.Model):
 
 
 class Stats(models.Model):
-    host_source = models.ForeignKey(Host, on_delete=models.CASCADE)
-    ppm = models.FloatField(help_text="average packets per minute")
+    host_source = models.OneToOneField(Host, on_delete=models.CASCADE)
+    ppm = models.FloatField(help_text="average packets per minute, may be empty", null=True)
     last_accessed = models.DateTimeField(
         help_text="when HOST has been accessed recently, meaning there was net traffic with this host")

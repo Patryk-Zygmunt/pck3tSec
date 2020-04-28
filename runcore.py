@@ -1,3 +1,5 @@
+#! /usr/bin//env python
+
 import sys
 import os
 import logging
@@ -9,10 +11,10 @@ def config_paths():
 
 
 config_paths()
-
-
-
 from core.django_external_setup import django_external_setup
+django_external_setup()
+
+from core.stat_analyzer import StatAnalyzer
 from core.analyze_dispatcher import AnalyzeDispatcher
 from core.google_safe_browsing import GoogleSafeBrowsing
 from core.host_analyzer import HostAnalyzer
@@ -20,19 +22,25 @@ from core.packet_reader import PacketReader
 from core.threat_observer import ThreatObserver
 from api.settings import LOGGING
 
+logger = logging.getLogger()
 
 def prepare_app(interface):
     django_external_setup()
     logging.config.dictConfig(LOGGING)
     # threat analyzer
     google_safe = GoogleSafeBrowsing("AIzaSyDyYREKVRoPgXSFvcRZuqFGZHlSFymDa80")
-    analyzer1 = HostAnalyzer(google_safe)
+    host_analyzer = HostAnalyzer(google_safe)
     threat_observer = ThreatObserver()
-    analyzer1.register_observer(threat_observer)
+    host_analyzer.register_observer(threat_observer)
 
+    # stat analyzer
+    stat_analyzer = StatAnalyzer()
+
+    # rest
     reader = PacketReader(interface)
     dispatcher = AnalyzeDispatcher(reader)
-    dispatcher.register_analyzer(analyzer1)
+    dispatcher.register_analyzer(host_analyzer)
+    dispatcher.register_analyzer(stat_analyzer)
     return dispatcher
 
 
@@ -41,6 +49,10 @@ def main(interface):
     try:
         dispatcher.run()
     except KeyboardInterrupt:
+        logger.info("stopping app")
+    except Exception:
+        logger.exception("app failed")
+    finally:
         dispatcher.finish()
 
 
