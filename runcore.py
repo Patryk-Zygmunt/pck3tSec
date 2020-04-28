@@ -13,11 +13,11 @@ config_paths()
 
 
 from core.django_external_setup import django_external_setup
-from core.analyzeDispatcher import AnalyzeDispatcher
-from core.googleSafeBrowsing import GoogleSafeBrowsing
-from core.hostAnalyzer import HostAnalyzer
-from core.packetReader import PacketReader
-from core.threatObserver import ThreatObserver
+from core.analyze_dispatcher import AnalyzeDispatcher
+from core.google_safe_browsing import GoogleSafeBrowsing
+from core.host_analyzer import HostAnalyzer
+from core.packet_reader import PacketReader
+from core.threat_observer import ThreatObserver
 from api.settings import LOGGING
 
 

@@ -1,5 +1,5 @@
 import unittest
-from core.packetReader import PacketReader
+from core.packet_reader import PacketReader
 
 class PacketReaderTestCase(unittest.TestCase):
 

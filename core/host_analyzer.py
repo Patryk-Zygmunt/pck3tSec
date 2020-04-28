@@ -1,5 +1,5 @@
-from core.googleSafeBrowsing import GoogleSafeBrowsing
-from core.timeCache import TimeCache
+from core.google_safe_browsing import GoogleSafeBrowsing
+from core.time_cache import TimeCache
 from scapy.layers import http, inet
 from core.abstracts import IAnalyzer, IObservable, IObserver
 from scapy.all import conf

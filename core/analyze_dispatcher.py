@@ -1,4 +1,4 @@
-from core.packetReader import PacketReader
+from core.packet_reader import PacketReader
 from core.abstracts import IAnalyzer
 import logging
 

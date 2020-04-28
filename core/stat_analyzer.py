@@ -1,5 +1,5 @@
 from core.abstracts import IAnalyzer, IObservable, IObserver
-from core.hostAnalyzer import HostAnalyzer
+from core.host_analyzer import HostAnalyzer
 from typing import Optional
 from scapy.layers import inet
 
