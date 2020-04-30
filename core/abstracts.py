@@ -37,6 +37,10 @@ class Analyzer(ABC):
     def analyze(self, packet):
         pass
 
+    @abstractmethod
+    def finish(self):
+        pass
+
     def _get_own_interfaces(self) -> List[str]:
         """
         get interface with ips for that which has gateway

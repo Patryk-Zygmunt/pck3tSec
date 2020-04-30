@@ -72,3 +72,6 @@ class HostAnalyzer(Analyzer, IObservable):
             host = self._handle_ip_layer(packet)
         if host:
             self.is_host_safe(host)
+
+    def finish(self):
+        logger.info("stopping host analyzer")

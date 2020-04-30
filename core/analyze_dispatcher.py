@@ -35,4 +35,6 @@ class AnalyzeDispatcher:
     def finish(self):
         logger.info("stopping dispatcher")
         self.active = False
+        for analyzer in self.analyzers:
+            analyzer.finish()
         self.reader.end()
