@@ -7,8 +7,8 @@ from unittest.mock import Mock
 
 class TimeDictTests(unittest.TestCase):
 
-    TIMEOUT = 2.7
-    ACTION_TIME = 2
+    TIMEOUT = 1.7
+    ACTION_TIME = 1
 
     def setUp(self) -> None:
         self.dic = TimeDict(action_time=timedelta(seconds=self.ACTION_TIME), poll_time=0.5)
@@ -78,7 +78,17 @@ class TimeDictTests(unittest.TestCase):
         self.dic = TimeDict(action_time=timedelta(seconds=2), poll_time=0.5, action=fn)
         self.dic[self.key] = self.value
         self.dic['key1'] = 1
-        print(self.dic)
         self.dic.flush()
         self.assertEqual(2, fn.call_count)
         self.assertEqual(0, len(self.dic))
+
+    def _action_raise(self, a, b):
+        raise ValueError
+
+    def test_updater_fail(self):
+        self.dic = TimeDict(action_time=timedelta(seconds=1), poll_time=0.2, action=self._action_raise)
+        self.dic[self.key] = self.value
+        time.sleep(self.TIMEOUT)
+        with self.assertRaises(ValueError):
+            self.dic['key1'] = 1
+

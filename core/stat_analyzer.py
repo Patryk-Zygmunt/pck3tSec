@@ -40,7 +40,6 @@ class StatAnalyzer(Analyzer):
             fqd_name=hostname,
             original_ip=ip
         )
-        # TODO bufor stats saves
         stat_query = Stats.objects.filter(host_source_id=host.id)
         if stat_query.exists():
             stat = stat_query.get()

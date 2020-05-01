@@ -4,7 +4,7 @@ from collections import UserDict
 from threading import Thread, Lock, Event
 from datetime import timedelta, datetime
 from collections import namedtuple
-from typing import Dict, Callable, Tuple, Any, List, Optional
+from typing import Dict, Callable, Any, List
 
 
 logger = logging.getLogger()
@@ -27,6 +27,7 @@ class TimeDict(UserDict):
 
             self.active = Event()
             self.removed_elems = 0
+            self.exception = None
 
         def start(self) -> None:
             self.active.set()
@@ -64,21 +65,26 @@ class TimeDict(UserDict):
             assert len(self.store) == len(self.time_store), "mismanaged object in store, len varies"
 
         def run(self):
-            logger.info('updater thread started')
-            while self.active.is_set():
-                time.sleep(self.poll_time)
-                now = datetime.now()
-                # TODO better optimize locking
-                self.lock.acquire()
-                for i, tv in enumerate(self.time_store):
-                    if now - tv.time >= self.action_time:
-                        self._handle_timed(tv)
-                    else:
-                        # list should be sorted descending with age of object ( assured by insertion )
-                        # so if first or n-th object id not old enough all the following also won't be
-                        break
-                self._timestore_remove_old()
-                self.lock.release()
+            try:
+                logger.info('updater thread started')
+                while self.active.is_set():
+                    time.sleep(self.poll_time)
+                    now = datetime.now()
+                    # TODO better optimize locking
+                    self.lock.acquire()
+                    for i, tv in enumerate(self.time_store):
+                        if now - tv.time >= self.action_time:
+                            self._handle_timed(tv)
+                        else:
+                            # list should be sorted descending with age of object ( assured by insertion )
+                            # so if first or n-th object id not old enough all the following also won't be
+                            break
+                    self._timestore_remove_old()
+                    self.lock.release()
+            except Exception as e:
+                self.exception = e
+                if self.lock.locked():
+                    self.lock.release()
 
     def __init__(self, action_time: timedelta, poll_time: float = 2, action: Callable[[Any, Any], None] = None,
                  no_delete=False):
@@ -100,7 +106,15 @@ class TimeDict(UserDict):
         self.updater = self.Updater(self.data, self.time_list, self.lock, poll_time, action_time, action, no_delete)
         self.updater.start()
 
+    def _check_exception(self):
+        """
+        Check if updater thread is working, if not re raise exception
+        """
+        if self.updater.exception:
+            raise self.updater.exception
+
     def clear(self) -> None:
+        self._check_exception()
         with self.lock:
             self.time_list.clear()
             self.data.clear()
@@ -109,12 +123,14 @@ class TimeDict(UserDict):
         """
         Does not respect object age, calls action method on all objects and clears them
         """
+        self._check_exception()
         self.updater.flush()
 
     def destroy(self):
         self.updater.active.clear()
 
     def __setitem__(self, key, value):
+        self._check_exception()
         with self.lock:
             if key not in self.data:
                 tv = self.TimedKey(datetime.now(), key)
@@ -126,15 +142,18 @@ class TimeDict(UserDict):
             return len(self.data)
 
     def __getitem__(self, key):
+        self._check_exception()
         with self.lock:
             return super().__getitem__(key)
 
     def __contains__(self, key):
+        self._check_exception()
         with self.lock:
             return super().__contains__(key)
 
     def __delitem__(self, key):
         """ This is slow operation - O(n)"""
+        self._check_exception()
         with self.lock:
             value_index = [i for i, v in enumerate(self.time_list) if v.key == key].pop()
             del self.time_list[value_index]
@@ -147,12 +166,3 @@ class TimeDict(UserDict):
         self.destroy()
         self.updater.join()
 
-
-if __name__ == '__main__':
-    d = TimeDict(action_time=timedelta(seconds=4), poll_time=0.5)
-    d['key'] = 1
-    #print(d)
-    time.sleep(5)
-    d['key'] = 2
-    #print(d)
-    d.destroy()
