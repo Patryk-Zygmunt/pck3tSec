@@ -1,5 +1,5 @@
 import unittest
-from core.analyzeDispatcher import AnalyzeDispatcher
+from core.analyze_dispatcher import AnalyzeDispatcher
 from unittest.mock import MagicMock
 
 

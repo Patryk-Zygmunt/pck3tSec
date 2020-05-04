@@ -11,3 +11,7 @@ class HostListView(generics.ListAPIView):
 class ThreatListView(generics.ListAPIView):
     queryset = Threat.objects.all()
     serializer_class = ThreatSerializer
+
+class StatsListView(generics.ListAPIView):
+    queryset = Stats.objects.all()
+    serializer_class = StatsSerializer

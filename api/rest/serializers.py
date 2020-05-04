@@ -15,3 +15,8 @@ class ThreatSerializer(serializers.ModelSerializer):
         depth = 1
 
 
+class StatsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Stats
+        fields = serializers.ALL_FIELDS
+        depth = 1
