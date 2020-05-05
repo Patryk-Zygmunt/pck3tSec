@@ -13,3 +13,6 @@
 
 ## how to run critical tests
 `> sudo python runtests_critical.py`
+
+## how to run docker
+`> docker run --cap-add=NET_ADMIN psec`
