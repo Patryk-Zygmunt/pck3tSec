@@ -28,3 +28,8 @@ class BlackListDetailView(generics.DestroyAPIView):
     queryset = ManageList.objects.filter(color=ListColor.BLACK.value)
     serializer_class = BlackListSerializer
 
+    def perform_destroy(self, instance):
+        host = Host.objects.get(id=instance.host_id)
+        host.blocked = False
+        host.save()
+        super().perform_destroy(instance)

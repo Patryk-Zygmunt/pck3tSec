@@ -23,17 +23,10 @@ class StatsSerializer(serializers.ModelSerializer):
         depth = 1
 
 
-# class ManageListSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = models.ManageList
-#         fields = serializers.ALL_FIELDS
-#         depth = 1
-
-
 class BlackListSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.ManageList
-        fields = serializers.ALL_FIELDS
+        fields = ['id', 'host', 'reason', 'time_added']
 
     def validate_color(self, value):
         if value != ListColor.BLACK.value:
@@ -41,7 +34,11 @@ class BlackListSerializer(serializers.ModelSerializer):
         return value
 
     def create(self, validated_data):
-        print(validated_data)
+        query = models.Host.objects.filter(id=validated_data['host'].id)
+        if query.exists():
+            host = query.get()
+            host.blocked = True
+            host.save()
         return models.ManageList.objects.create(host_id=validated_data['host'].id,
                                                 reason=validated_data['reason'],
                                                 color=ListColor.BLACK.value)
