@@ -1,5 +1,5 @@
 from django.db import models
-from rest.enum_classes import ThreatType
+from rest.enum_classes import ThreatType, ListColor
 
 
 class Host(models.Model):
@@ -23,3 +23,10 @@ class Stats(models.Model):
     ppm = models.FloatField(help_text="average packets per minute, may be empty", null=True)
     last_accessed = models.DateTimeField(
         help_text="when HOST has been accessed recently, meaning there was net traffic with this host")
+
+
+class ManageList(models.Model):
+    host = models.OneToOneField(Host, on_delete=models.CASCADE)
+    reason = models.CharField(max_length=1024, blank=True)
+    time_added = models.DateTimeField(auto_now_add=True)
+    color = models.CharField(max_length=5, choices=[(col.value, col.value.lower()) for col in ListColor])

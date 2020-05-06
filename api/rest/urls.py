@@ -6,6 +6,8 @@ urlpatterns = [
     path('hosts/', views.HostListView.as_view()),
     path('threats/', views.ThreatListView.as_view()),
     path('stats/', views.StatsListView.as_view()),
+    path('blacklist/', views.BlackListView.as_view()),
+    path('blacklist/<int:pk>/', views.BlackListDetailView.as_view()),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
