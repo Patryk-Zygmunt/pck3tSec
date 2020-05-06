@@ -1,5 +1,9 @@
 /pck3tsec-ui
-/Dockerfile
 /README.md
 /__pycache__
 /diagrams
+/env
+/.git
+/.idea
+/.github
+/.DS_Store
