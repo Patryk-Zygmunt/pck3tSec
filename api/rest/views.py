@@ -29,7 +29,9 @@ class BlackListDetailView(generics.DestroyAPIView):
     serializer_class = BlackListSerializer
 
     def perform_destroy(self, instance):
+        blocker = HostBlocker()
         host = Host.objects.get(id=instance.host_id)
         host.blocked = False
         host.save()
+        blocker.unblock_host(host.original_ip)
         super().perform_destroy(instance)

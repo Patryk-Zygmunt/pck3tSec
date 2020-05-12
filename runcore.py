@@ -62,6 +62,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('interface', help='interface to sniff on')
     parser.add_argument('--log-debug', action='store_true')
+
     print("Warinig! this script needs root privileges")
     args = parser.parse_args()
     if args.log_debug:

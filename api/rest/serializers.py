@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from rest import models
 from rest.enum_classes import ListColor
+import sys
+from rest.host_blocker import HostBlocker
 
 
 class HostSerializer(serializers.ModelSerializer):
@@ -34,11 +36,13 @@ class BlackListSerializer(serializers.ModelSerializer):
         return value
 
     def create(self, validated_data):
+        blocker = HostBlocker()
         query = models.Host.objects.filter(id=validated_data['host'].id)
         if query.exists():
             host = query.get()
             host.blocked = True
             host.save()
+            blocker.block_host(host.original_ip)
         return models.ManageList.objects.create(host_id=validated_data['host'].id,
                                                 reason=validated_data['reason'],
                                                 color=ListColor.BLACK.value)

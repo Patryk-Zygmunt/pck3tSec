@@ -21,7 +21,7 @@ class HostBlocker:
 
     def block_host(self, host_ip: str):
         self._validate_host(host_ip)
-        logger.info(f'blocking host {host_ip}')
+        logger.info(f'Blocking host {host_ip}')
         command_ip_out = [self.iptables, '-A', 'OUTPUT', '-d', host_ip, '-j', 'REJECT']
         command_ip_in = [self.iptables, '-A', 'INPUT', '-s', host_ip, '-j', 'DROP']
         subprocess.run(command_ip_in, check=True)
@@ -39,6 +39,7 @@ class HostBlocker:
 
     def unblock_host(self, host_ip: str):
         self._validate_host(host_ip)
+        logger.info(f'Unblocking host {host_ip}')
         output_table = subprocess.check_output([self.iptables, '-L', 'OUTPUT', '-n', '--line-numbers'])
         input_table = subprocess.check_output([self.iptables, '-L', 'INPUT', '-n', '--line-numbers'])
         output_id = self._find_rule_id_by_name(output_table, host_ip)

@@ -15,4 +15,4 @@
 `> sudo python runtests_critical.py`
 
 ## how to run docker
-`> docker run --cap-add=NET_ADMIN psec`
+`> docker run --cap-add=NET_ADMIN -p 8124:8000 psec:debug`
