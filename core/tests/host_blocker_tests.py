@@ -1,5 +1,5 @@
 import unittest
-from core.host_blocker import HostBlocker
+from rest.host_blocker import HostBlocker
 from unittest.mock import patch, call
 
 

@@ -12,6 +12,7 @@
 `> sudo python runcore.py`
 
 ## how to run critical tests
+note that critical test can  only be run in docker
 `> sudo python runtests_critical.py`
 
 ## how to run docker
