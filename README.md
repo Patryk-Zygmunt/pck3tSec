@@ -19,4 +19,4 @@ note that critical test can  only be run in docker
 ## how to run docker
 `> docker run --cap-add=NET_ADMIN -p 8124:8000 psec:debug`
 
-docker is listenging for http requests on localhost:8124
+docker is listening for http requests on localhost:8124
