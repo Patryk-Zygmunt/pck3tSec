@@ -21,8 +21,12 @@ jobs:
         python-version: 3.8
     - name: Install dependencies
       run: |
-        python -V
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     - name: Run unittests
       run: python -m unittest discover -s ./core/tests -p "*tests.py"
+    - name: Run api tests
+      run: |
+        cd api
+        ./manage.py test
+        cd ..

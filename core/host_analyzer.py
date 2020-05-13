@@ -48,7 +48,7 @@ class HostAnalyzer(Analyzer, IObservable):
         host_path = f"{host}{path}"
         return host_path
 
-    def is_host_safe(self, host: str) -> Tuple[bool, Dict]:
+    def is_host_safe(self, host: str, ip:str) -> Tuple[bool, Dict]:
         ret_value = (True, {})
         if host not in self.safe_cache:
             logger.info(f"api call  for host {host}")
@@ -58,7 +58,7 @@ class HostAnalyzer(Analyzer, IObservable):
                 self.safe_cache.add(host)
             else:
                 logger.info("host {} is threat, details: {}".format(host, ret_value[1]))
-                self.notify(host, ret_value[1])
+                self.notify(host, ret_value[1], ip)
         return ret_value
 
     def analyze(self, packet):
@@ -71,7 +71,8 @@ class HostAnalyzer(Analyzer, IObservable):
             logger.debug(f"packet {packet.summary()} has ip layer")
             host = self._handle_ip_layer(packet)
         if host:
-            self.is_host_safe(host)
+            ip = self._get_ip_of_foreign_host_outgoing(packet.getlayer(inet.IP))
+            self.is_host_safe(host, ip)
 
     def finish(self):
         logger.info("stopping host analyzer")
