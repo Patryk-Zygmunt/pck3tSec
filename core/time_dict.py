@@ -165,4 +165,3 @@ class TimeDict(UserDict):
     def __del__(self):
         self.destroy()
         self.updater.join()
-

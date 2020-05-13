@@ -8,6 +8,7 @@ from abc import ABC, abstractmethod
 from django.test import TestCase
 from rest.models import Host, Threat
 import django.test.utils as dutils
+import subprocess
 
 logger = logging.getLogger()
 
@@ -16,17 +17,16 @@ class CriticalTest(ABC, TestCase):
 
     class AppThread(threading.Thread):
 
-        def __init__(self):
+        def __init__(self, iface):
             super().__init__()
-            self.dispatcher = prepare_app(get_machine_live_ifaces()[0][0])
+            self.dispatcher = prepare_app(iface)
 
         def run(self):
             self.dispatcher.run()
 
-    def __init__(self):
+    def __init__(self, iface):
         TestCase.__init__(self)
-        self.live_interface = get_machine_live_ifaces()
-        self.app_thread = self.AppThread()
+        self.app_thread = self.AppThread(iface)
 
     def start_app_threat(self):
         self.app_thread.start()
@@ -46,26 +46,35 @@ class CriticalTest(ABC, TestCase):
     def test(self):
         pass
 
+    def pre_test(self):
+        dutils.setup_test_environment()
+        old_conf = dutils.setup_databases(1, False)
+        self.start_app_threat()
+        self._wait_for_live_app()
+        return old_conf
+
+    def post_test(self, conf):
+        self.stop_app_threat()
+        dutils.teardown_databases(conf, 1)
+        dutils.teardown_test_environment()
+        subprocess.run(['/sbin/iptables', '-F', 'INPUT'])
+        subprocess.run(['/sbin/iptables', '-F', 'OUTPUT'])
+
     def perform_test(self):
         try:
-            dutils.setup_test_environment()
-            old_conf = dutils.setup_databases(1, False)
-            self.start_app_threat()
-            self._wait_for_live_app()
+            db_conf = self.pre_test()
             self.test()
-            self.stop_app_threat()
-            dutils.teardown_databases(old_conf, 1)
-            dutils.teardown_test_environment()
+            self.post_test(db_conf)
         except KeyboardInterrupt:
             self.stop_app_threat()
 
 
 class HostThreatTest(CriticalTest):
 
-    def __init__(self):
+    def __init__(self, iface):
         # does not see https - only http ( because of paths)
         self.test_url = "http://testsafebrowsing.appspot.com/s/malware.html"
-        super().__init__()
+        super().__init__(iface)
 
     def test(self):
         logger.info("running host threat rest")

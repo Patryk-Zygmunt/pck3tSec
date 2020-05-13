@@ -3,6 +3,7 @@
 import sys
 import os
 import logging
+import argparse
 
 def config_paths():
     cwd = os.path.dirname(os.path.abspath(__file__))
@@ -23,6 +24,7 @@ from core.threat_observer import ThreatObserver
 from api.settings import LOGGING
 
 logger = logging.getLogger()
+
 
 def prepare_app(interface):
     django_external_setup()
@@ -57,5 +59,12 @@ def main(interface):
 
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('interface', help='interface to sniff on')
+    parser.add_argument('--log-debug', action='store_true')
+
     print("Warinig! this script needs root privileges")
-    main('en0')
+    args = parser.parse_args()
+    if args.log_debug:
+        LOGGING['root']['level'] = 'DEBUG'
+    main(args.interface)
