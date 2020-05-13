@@ -28,6 +28,5 @@ jobs:
     - name: Run api tests
       run: |
         cd api
-        ./manage.py migrate
         ./manage.py test
         cd ..
