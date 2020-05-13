@@ -4,6 +4,7 @@ from rest.models import *
 from rest.enum_classes import *
 from django.utils import timezone
 from rest_framework import status
+from unittest.mock import patch
 
 
 class RESTTests(TestCase):
@@ -60,14 +61,16 @@ class RESTTests(TestCase):
 
     def test_post_blacklist(self):
         url = reverse('api-blacklists')
-        res = self.client.post(url, {'host': 2, 'reason': 'some reason'})
+        with patch('subprocess.run') as run_patch:
+            res = self.client.post(url, {'host': 2, 'reason': 'some reason'})
         self.assertEqual(status.HTTP_201_CREATED, res.status_code)
         host = Host.objects.get(id=2)
         self.assertTrue(host.blocked)
 
     def test_delete_blacklist(self):
         url = reverse('api-blacklist-item', args=(1,))
-        res = self.client.delete(url)
+        with patch('subprocess.run') as run_patch:
+            res = self.client.delete(url)
         self.assertEqual(status.HTTP_204_NO_CONTENT, res.status_code)
         host = Host.objects.get(id=1)
         self.assertFalse(host.blocked)
