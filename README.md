@@ -18,5 +18,10 @@ note that critical test can  only be run in docker
 
 ## how to run docker
 `> docker run --cap-add=NET_ADMIN -p 8124:8000 psec:debug`
+```
+ docker  network create nazwa-sieci
+ docker run --network nazwa-sieci -p 81:80  patrykzygmunt/pck3tsec-ui
+ docker run --cap-add=NET_ADMIN --name backend --network nazwa-sieci  -p 8123:8000 matshec/psec-hub:latest
+```
 
 docker is listening for http requests on localhost:8124
