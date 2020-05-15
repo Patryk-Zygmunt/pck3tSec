@@ -1,4 +1,5 @@
 # Hello There
+![Basci Tests](https://github.com/Matshec/pck3tSec/workflows/Basci%20Tests/badge.svg)
 
 ## how to run frontend:
 `> npm install`
