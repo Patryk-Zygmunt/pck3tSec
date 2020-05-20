@@ -31,11 +31,11 @@ export class HostsService {
   }
 
   addToBlackList(host) {
-    return  this.http.post(this.URL + '/blacklist',host)
+    return  this.http.post(this.URL + '/blacklist/',host)
   }
 
   addToWhiteList(host) {
-    return  this.http.post(this.URL + '/whitelist',host)
+    return  this.http.post(this.URL + '/whitelist/',host)
   }
 
   deleteFromBlacklist(hostId: any) {
