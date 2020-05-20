@@ -1,5 +1,5 @@
 {
-  "compileOnSave": true,
+  "compileOnSave": false,
   "compilerOptions": {
     "importHelpers": true,
     "module": "esnext",
@@ -17,16 +17,8 @@
       "es2017",
       "dom"
     ],
-
     "plugins": [
-      { "name": "tslint-language-service"}
+
     ]
-  },
-  "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "node_modules",
-    "ngx/**/*"
-  ]
+  }
 }
