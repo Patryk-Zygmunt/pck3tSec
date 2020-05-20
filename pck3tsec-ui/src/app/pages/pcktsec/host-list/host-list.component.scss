@@ -9,6 +9,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    //overflow-wrap: break-spaces;
+    overflow-x: hidden!important;
 
     > * {
       flex: 1;

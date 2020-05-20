@@ -41,14 +41,14 @@ app.get('/threats',async (req, res)=> {
 
 
 app.post('/blacklist', (req, res)=> {
-  req.body.time = Date()
+  req.body.time_added = Date()
   blacklist.push(req.body)
   res.send()
 
 })
 
 app.post('/whitelist', (req, res)=> {
-  req.body.time = Date()
+  req.body.time_added = Date()
   wl.push(req.body)
   res.send()
 
