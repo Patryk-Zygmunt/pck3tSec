@@ -12,24 +12,36 @@ export class AddToListComponent {
 
 
 
-  @Input() host: any;
-  reason:string;
+  @Input()
+  set host(host){
+    console.log(host)
+    this._host.host = host.id;
+
+    if(host.host_source){
+      this._host.host = host.host_source.id;
+    }
+
+
+  }
+
+
+  _host:any = {};
+  reason: any;
 
   constructor(protected ref: NbDialogRef<AddToListComponent>,private hostService:HostsService) {}
 
 
 
   addToBlackList(){
-    this.host.reason = this.reason;
-    console.log(this.host)
-    this.hostService.addToBlackList(this.host)
+    this._host.reason = this.reason;
+    this.hostService.addToBlackList(this._host)
       .subscribe(()=>this.ref.close())
   }
 
 
   addToWhiteList(){
-    this.host.reason = this.reason;
-    this.hostService.addToWhiteList(this.host)
+    this._host.reason = this.reason;
+    this.hostService.addToWhiteList(this._host)
       .subscribe(()=>this.ref.close())
   }
 
